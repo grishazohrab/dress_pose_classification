@@ -9,7 +9,7 @@ layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 
 
-def find_in_image(img_path: str) -> int:
+def is_person(img_path: str) -> int:
     img = cv2.imread(img_path)
     height, width = img.shape[:2]
 
@@ -45,13 +45,13 @@ def find_in_image(img_path: str) -> int:
     person_detected = any(class_id == 0 for class_id in class_ids)  # 0 is the class ID for 'person' in YOLO
 
     if person_detected:
-        return "Yes"
+        return 1
     else:
-        return "No"
+        return 0
 
 
 if __name__ == '__main__':
     for x in os.listdir("tmp_images/processed_data"):
         file_name = os.listdir(f'tmp_images/processed_data/{x}/1')[0]
         print(f"There is a person in the image "
-              f"{find_in_image(f'tmp_images/processed_data/{x}/1/{file_name}')}")
+              f"{is_person(f'tmp_images/processed_data/{x}/1/{file_name}')}")
